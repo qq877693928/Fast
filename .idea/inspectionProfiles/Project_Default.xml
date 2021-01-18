@@ -1,0 +1,44 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="TOP_LEVEL_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="INNER_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="METHOD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
+        </value>
+      </option>
+      <option name="FIELD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="IGNORE_DEPRECATED" value="false" />
+      <option name="IGNORE_JAVADOC_PERIOD" value="true" />
+      <option name="IGNORE_DUPLICATED_THROWS" value="false" />
+      <option name="IGNORE_POINT_TO_ITSELF" value="false" />
+      <option name="myAdditionalJavadocTags" value="date,desc:收藏条目对象,desc:消息收藏条目,desc:收藏链接条目,desc:收藏图片条目,desc:消息条目,desc:链接条目" />
+    </inspection_tool>
+    <inspection_tool class="NonSerializableWithSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SerialVersionUIDNotStaticFinal" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SerializableHasSerialVersionUIDField" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreAnonymousInnerClasses" value="false" />
+      <option name="superClassString" value="java.awt.Component" />
+    </inspection_tool>
+    <inspection_tool class="TransientFieldInNonSerializableClass" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="TransientFieldNotInitialized" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>
