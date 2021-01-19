@@ -7,9 +7,6 @@ buildscript {
     ext.bintray_version = "1.8.4"
     ext.maven_version = "2.1"
     repositories {
-        maven {
-            url "https://dl.bintray.com/lizhenhua2003/maven"
-        }
         google()
         jcenter()
     }
@@ -24,9 +21,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url "https://dl.bintray.com/lizhenhua2003/maven"
-        }
         google()
         jcenter()
     }
