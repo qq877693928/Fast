@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "com.android.tools.build:gradle:$agp_version"
+    implementation "com.android.tools.build:builder:$agp_version"
+}
+
+ext {
+    libraryName = 'fast-plugin'
+    artifact = 'fast-plugin'
+    type = 'jar'
+    libraryDescription = 'This is gradle plugin about Fast.'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: '../bintray.gradle'
+apply from: '../install.gradle'

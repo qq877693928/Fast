@@ -1,18 +1,32 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.kotlin_coroutines_version = '1.4.2'
     ext.kotlin_version = '1.4.10'
+    ext.agp_version = "3.6.3"
+    ext.gradle_version = "4.1.1"
+    ext.bintray_version = "1.8.4"
+    ext.maven_version = "2.1"
     repositories {
+        maven {
+            url "https://dl.bintray.com/lizhenhua2003/maven"
+        }
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.1"
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
+        classpath 'com.lizhenhua.fast:fast-plugin:1.0.0'
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url "https://dl.bintray.com/lizhenhua2003/maven"
+        }
         google()
         jcenter()
     }

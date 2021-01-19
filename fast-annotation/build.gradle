@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+ext {
+    libraryName = 'fast-annotation'
+    artifact = 'fast-annotation'
+    type = 'jar'
+    libraryDescription = 'This is Annotation library about Fast.'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: '../bintray.gradle'
+apply from: '../install.gradle'

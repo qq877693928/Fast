@@ -1,2 +1,5 @@
+include ':fast-annotation'
+include ':fast-runtime'
+include ':fast-plugin'
 include ':demo'
 rootProject.name = "Fast"
