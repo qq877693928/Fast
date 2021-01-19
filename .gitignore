@@ -58,6 +58,7 @@ captures/
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+.idea/
 /captures
 
 # Keystore files
