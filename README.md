@@ -11,9 +11,6 @@ Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标�
 
 Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码，记录该方法被调用时的关键信息，省去开发者手写打点代码，从而提升了开发效率
 
-注意：由于在编译过程中需要将所有加上@FastLog注解的方法都插入代码，所有在Release版本上需要将注解去掉，或者将apply plugin 'com.lizhenhua.fast
-.plugin'去掉，避免Release版本打包效率问题和Release版本安全性问题
-
 ## 效果
 [示例代码](https://github.com/qq877693928/Fast/blob/main/demo/src/main/java/com/lizhenhua/fast/demo/MainActivity.kt)
 
@@ -54,3 +51,18 @@ plugins {
 ```
 
 3. 在需要打点的方法上添加标注, [Demo参考](https://github.com/qq877693928/Fast/blob/main/demo)
+
+## 配置（Since fast-plugin:1.0.1）
+
+由于在编译过程中需要将所有加上@FastLog注解的方法都会注入代码，为了避免Release版本打包效率问题和Release版本安全性等问题，所有在Release版本上需要将注入代码的功能去掉
+
+从fast-plugin:1.0.1起提供gradle自定义fast配置, enable值默认为true表示@FastLog注解的方法会注入代码，为false时表示不会注入代码
+ 
+如下：
+```shell script
+fast {
+    enable = true
+}
+```
+
+

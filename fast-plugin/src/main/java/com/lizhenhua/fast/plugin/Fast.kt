@@ -7,6 +7,7 @@ import org.gradle.api.Project
 
 class Fast : Plugin<Project> {
   override fun apply(project: Project) {
+    project.extensions.create("fast", FastExtension::class.java)
     project.extensions.getByType(AppExtension::class.java)
         .registerTransform(FastTransformer(project))
   }

@@ -7,6 +7,9 @@ buildscript {
     ext.bintray_version = "1.8.4"
     ext.maven_version = "2.1"
     repositories {
+        maven {
+            url  "https://dl.bintray.com/lizhenhua2003/maven"
+        }
         google()
         jcenter()
     }
@@ -15,12 +18,15 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
-        classpath 'com.lizhenhua.fast:fast-plugin:1.0.0'
+        classpath 'com.lizhenhua.fast:fast-plugin:1.0.1'
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url  "https://dl.bintray.com/lizhenhua2003/maven"
+        }
         google()
         jcenter()
     }

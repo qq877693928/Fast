@@ -1,5 +1,6 @@
 package com.lizhenhua.fast.plugin.core
 
+import com.lizhenhua.fast.plugin.FastExtension
 import com.lizhenhua.fast.plugin.base.AbstractTransform
 import org.gradle.api.Project
 import org.objectweb.asm.ClassVisitor
@@ -16,8 +17,10 @@ internal class FastTransformer(private val project: Project) : AbstractTransform
   }
 
   override fun enableTraceClass(inputFile: File): Boolean {
+    var fastExtension: FastExtension = project.extensions.getByType(FastExtension::class.java)
+
     val name = inputFile.name
-    return !(!name.endsWith(".class")
+    return fastExtension.enable && !(!name.endsWith(".class")
         || name.startsWith("R.class")
         || name.startsWith("R$")
         || "BuildConfig.class" === name)
