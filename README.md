@@ -1,6 +1,6 @@
 # Fast
 
-[ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.0.0) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.0.0/link)
+[ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.0.1) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.0.1/link)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
 Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标注待打点方法，程序运行时该方法被调用时，自动触发日志记录到Logcat
