@@ -1,16 +1,35 @@
 package com.lizhenhua.fast.demo
 
+import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-
+import android.util.Log
 import com.lizhenhua.fast.annotation.FastLog
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
+  @FastLog
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
     testHello("hello", "world")
+    testArray(arrayOf(1, 2))
+    testReturnArray()
+    testReturnObjectArray()
+  }
+
+  @FastLog
+  private fun testReturnObjectArray(): Array<Object> {
+    return arrayOf(Object(), Object())
+  }
+
+  @FastLog
+  private fun testReturnArray(): Array<Long> {
+    return arrayOf(1L, 2L)
+  }
+
+  @FastLog
+  private fun testArray(array: Array<Int>) {
+    Log.e("" + array[0], "" + array[1])
   }
 
   @FastLog

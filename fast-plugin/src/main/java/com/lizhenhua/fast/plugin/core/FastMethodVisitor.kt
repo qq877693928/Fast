@@ -22,12 +22,13 @@ internal class FastMethodVisitor(
   private val mDescriptor: String?
   private var mStartLabel: Label? = null
   private var mEndLabel: Label? = null
+  private val timeLocalIndex = 0
 
   // 方法的参数个数
   private val mParamSize: Int
-  private var mLocalVariableIndex: Int
   private var mCursorVar = 0
-  private var mStartTimeCursorVar = 0
+  private var mTimeLocalIndex = 0
+  private var mParamsLocalIndex = 0
   private val mParamTypes: MutableList<String> = ArrayList()
   override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitor {
     if ("Lcom/lizhenhua/fast/annotation/FastLog;" == descriptor) {
@@ -51,13 +52,14 @@ internal class FastMethodVisitor(
           "()V",
           false
       )
-      mv.visitVarInsn(ASTORE, mParamSize + 1)
+      mParamsLocalIndex = mParamSize + 1
+      mv.visitVarInsn(ASTORE, mParamsLocalIndex)
 
       // List.add方法将参数值保留
       mCursorVar = 0
       for (i in 0 until mParamSize) {
         mv.visitLabel(Label())
-        mv.visitVarInsn(ALOAD, mParamSize + 1)
+        mv.visitVarInsn(ALOAD, mParamsLocalIndex)
         mv.visitVarInsn(ALOAD, ++mCursorVar)
         mv.visitMethodInsn(
             INVOKEINTERFACE,
@@ -72,58 +74,16 @@ internal class FastMethodVisitor(
       mv.visitLdcInsn(mClassName)
       mv.visitLdcInsn(mMethodName)
       mv.visitLdcInsn(mParamTypes.toString())
-      mv.visitVarInsn(ALOAD, mParamSize + 1)
+      mv.visitVarInsn(ALOAD, mParamsLocalIndex)
       mv.visitMethodInsn(
-          INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "enterMethod",
-          "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" +
-              "Ljava/util/List;)V", false
+          INVOKESTATIC,
+          "com/lizhenhua/fast/runtime/FastTraceLog",
+          "enterMethod",
+          "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V",
+          false
       )
 
       //startTime
-      mv.visitLabel(Label())
-      mv.visitMethodInsn(
-          INVOKESTATIC, Type.getInternalName(System::class.java), "currentTimeMillis", "()J",
-          false
-      )
-      mStartTimeCursorVar = mParamSize + 1
-      mv.visitVarInsn(LSTORE, mStartTimeCursorVar + 1)
-      mEndLabel = Label()
-      mv.visitLabel(mEndLabel)
-      mv.visitLocalVariable(
-          "objectList", Type.getDescriptor(ArrayList::class.java),
-          "Ljava/util/ArrayList<Ljava/lang/Object;>;", mStartLabel, mEndLabel,
-          ++mLocalVariableIndex
-      )
-      mv.visitLocalVariable(
-          "startTime",
-          "J",
-          null,
-          mStartLabel,
-          mEndLabel,
-          ++mLocalVariableIndex
-      )
-    }
-  }
-
-  public override fun onMethodExit(opcode: Int) {
-    if (mShouldInject) {
-      when (opcode) {
-        RETURN -> {
-        }
-        ARETURN -> {
-          mv.visitVarInsn(ASTORE, ++mLocalVariableIndex)
-          mv.visitVarInsn(ALOAD, mLocalVariableIndex)
-        }
-      }
-      val returnType = Type.getReturnType(mDescriptor)
-      if (returnType !== Type.VOID_TYPE) {
-        mEndLabel = Label()
-        mv.visitLabel(mEndLabel)
-        mv.visitLocalVariable(
-            "returnObject", returnType.descriptor, null, mStartLabel,
-            mEndLabel, mLocalVariableIndex
-        )
-      }
       mv.visitLabel(Label())
       mv.visitMethodInsn(
           INVOKESTATIC,
@@ -132,23 +92,79 @@ internal class FastMethodVisitor(
           "()J",
           false
       )
-      mv.visitVarInsn(LLOAD, mStartTimeCursorVar + 1)
+      mTimeLocalIndex = newLocal(Type.LONG_TYPE)
+      mv.visitVarInsn(LSTORE, mTimeLocalIndex)
+    }
+  }
+
+  public override fun onMethodExit(opcode: Int) {
+    if (mShouldInject && ATHROW != opcode) {
+      val returnType = Type.getReturnType(mDescriptor)
+      val nextLocal: Int = this.nextLocal
+      var returnResultStoreOpcode: Int = NOP
+      var returnResultLoadOpcode: Int = NOP
+
+      if (opcode in IRETURN..ARETURN) {
+        when (opcode) {
+          IRETURN -> {
+            returnResultStoreOpcode = ISTORE
+            returnResultLoadOpcode = ILOAD
+          }
+          LRETURN -> {
+            returnResultStoreOpcode = LSTORE
+            returnResultLoadOpcode = LLOAD
+          }
+          FRETURN -> {
+            returnResultStoreOpcode = FSTORE
+            returnResultLoadOpcode = FLOAD
+          }
+          DRETURN -> {
+            returnResultStoreOpcode = DSTORE
+            returnResultLoadOpcode = DLOAD
+          }
+          ARETURN -> {
+            returnResultStoreOpcode = ASTORE
+            returnResultLoadOpcode = ALOAD
+          }
+        }
+        mv.visitVarInsn(returnResultStoreOpcode, nextLocal)
+        mv.visitVarInsn(returnResultLoadOpcode, nextLocal)
+      }
+
+      mv.visitLabel(Label())
+      mv.visitMethodInsn(
+          INVOKESTATIC,
+          Type.getInternalName(System::class.java),
+          "currentTimeMillis",
+          "()J",
+          false
+      )
+      mv.visitVarInsn(LLOAD, mTimeLocalIndex)
       mv.visitInsn(LSUB)
-      mv.visitVarInsn(LSTORE, mStartTimeCursorVar + 3)
+      mv.visitVarInsn(LSTORE, mTimeLocalIndex)
       mv.visitLabel(Label())
       mv.visitLdcInsn(mClassName)
       mv.visitLdcInsn(mMethodName)
       if (Type.VOID_TYPE === returnType) {
         mv.visitInsn(ACONST_NULL)
       } else {
-        mv.visitVarInsn(ALOAD, mLocalVariableIndex)
+        if (opcode in IRETURN..ARETURN) {
+          mv.visitVarInsn(returnResultLoadOpcode, nextLocal)
+        }
       }
-      mv.visitVarInsn(LLOAD, mStartTimeCursorVar + 3)
+      mv.visitVarInsn(LLOAD, mTimeLocalIndex)
       mv.visitInsn(if (Type.VOID_TYPE === returnType) ICONST_0 else ICONST_1)
-      mv.visitMethodInsn(
-          INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "exitMethod",
-          "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;JZ)V", false
-      )
+      if (opcode in IRETURN..DRETURN) {
+        mv.visitMethodInsn(
+            INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "exitMethod",
+            "(Ljava/lang/String;Ljava/lang/String;" + returnType.descriptor + "JZ)V", false
+        )
+      } else {
+        mv.visitMethodInsn(
+            INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "exitMethod",
+            "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;JZ)V", false
+        )
+      }
     }
     super.onMethodExit(opcode)
   }
@@ -160,6 +176,5 @@ internal class FastMethodVisitor(
     val argTypes: Array<Type> = Type.getArgumentTypes(mDescriptor)
     argTypes.forEach { type -> mParamTypes.add(type.className) }
     mParamSize = argTypes.size
-    mLocalVariableIndex = mParamSize
   }
 }
