@@ -21,15 +21,13 @@ internal class FastMethodVisitor(
   private var mShouldInject = false
   private val mDescriptor: String?
   private var mStartLabel: Label? = null
-  private var mEndLabel: Label? = null
-  private val timeLocalIndex = 0
 
   // 方法的参数个数
   private val mParamSize: Int
-  private var mCursorVar = 0
   private var mTimeLocalIndex = 0
   private var mParamsLocalIndex = 0
   private val mParamTypes: MutableList<String> = ArrayList()
+  private var mArgumentTypes: Array<Type>? = null
   override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitor {
     if ("Lcom/lizhenhua/fast/annotation/FastLog;" == descriptor) {
       mShouldInject = true
@@ -56,11 +54,11 @@ internal class FastMethodVisitor(
       mv.visitVarInsn(ASTORE, mParamsLocalIndex)
 
       // List.add方法将参数值保留
-      mCursorVar = 0
-      for (i in 0 until mParamSize) {
+      for ((cursorVar, i) in (0 until mParamSize).withIndex()) {
         mv.visitLabel(Label())
         mv.visitVarInsn(ALOAD, mParamsLocalIndex)
-        mv.visitVarInsn(ALOAD, ++mCursorVar)
+        mv.visitVarInsn(ALOAD, cursorVar + 1)
+        mArgumentTypes?.get(i)?.let { visitParamsValue(it) }
         mv.visitMethodInsn(
             INVOKEINTERFACE,
             Type.getInternalName(List::class.java),
@@ -94,6 +92,46 @@ internal class FastMethodVisitor(
       )
       mTimeLocalIndex = newLocal(Type.LONG_TYPE)
       mv.visitVarInsn(LSTORE, mTimeLocalIndex)
+    }
+  }
+
+  private fun visitParamsValue(type: Type) {
+    when (type.sort) {
+      Type.BOOLEAN -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+        mParamTypes.add("java.lang.Boolean")
+      }
+      Type.INT -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
+        mParamTypes.add("java.lang.Integer")
+      }
+      Type.BYTE -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;", false);
+        mParamTypes.add("java.lang.Byte")
+      }
+      Type.SHORT -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;", false);
+        mParamTypes.add("java.lang.Short")
+      }
+      Type.LONG -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false);
+        mParamTypes.add("java.lang.Long")
+      }
+      Type.FLOAT -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;", false);
+        mParamTypes.add("java.lang.Float")
+      }
+      Type.DOUBLE -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+        mParamTypes.add("java.lang.Double")
+      }
+      Type.CHAR -> {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;", false);
+        mParamTypes.add("java.lang.Character")
+      }
+      else -> {
+        mParamTypes.add(type.className)
+      }
     }
   }
 
@@ -173,8 +211,7 @@ internal class FastMethodVisitor(
     mClassName = className.replace('/', '.')
     mMethodName = methodName
     mDescriptor = descriptor
-    val argTypes: Array<Type> = Type.getArgumentTypes(mDescriptor)
-    argTypes.forEach { type -> mParamTypes.add(type.className) }
-    mParamSize = argTypes.size
+    mArgumentTypes = Type.getArgumentTypes(mDescriptor)
+    mParamSize = (mArgumentTypes as Array<out Type>?)?.size ?: 0
   }
 }

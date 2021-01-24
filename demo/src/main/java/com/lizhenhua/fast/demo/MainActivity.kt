@@ -2,7 +2,7 @@ package com.lizhenhua.fast.demo
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import com.lizhenhua.fast.annotation.FastLog
 
 class MainActivity : Activity() {
@@ -10,35 +10,32 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
-        testHello("hello", "world")
-        testArray(arrayOf(1, 2))
-        testReturnArray()
-        testReturnObjectArray()
+    fun onTestInt(view: View) {
+        testInt(1)
+    }
+
+    fun onTestBoolean(view: View) {
+        testBoolean(true)
+    }
+
+    fun onTestIntArray(view: View) {
+        testIntArray(arrayOf(1, 2))
     }
 
     @FastLog
-    private fun testReturnObjectArray(): Array<Object> {
-        return arrayOf(Object(), Object())
+    private fun testIntArray(arrayOf: Array<Int>) {
+        println(arrayOf)
     }
 
     @FastLog
-    private fun testReturnArray(): Array<Long> {
-        return arrayOf(1L, 2L)
+    private fun testInt(int: Int) {
+        println(int)
     }
 
     @FastLog
-    private fun testArray(array: Array<Int>) {
-        testFun2(array)
-    }
-
-    @FastLog
-    private fun testFun2(array: Array<Int>) {
-        Log.e("" + array[0], "" + array[1])
-    }
-
-    @FastLog
-    private fun testHello(first: String, second: String): String {
-        return "$first $second"
+    private fun testBoolean(b: Boolean) {
+        println(b)
     }
 }
