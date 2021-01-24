@@ -1,6 +1,6 @@
 # Fast
 
-[ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.1.0) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.1.0/link)
+[ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.2.0) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.2.0/link)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
 Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标注待打点方法，程序运行时该方法被调用时，自动触发日志记录到Logcat
@@ -22,8 +22,8 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
 ```
 * 日志效果
 ```shell script
-  D/MainActivity: >>>> testHello(String="hello", String="world")
-  D/MainActivity: <<<< testHello [1ms] = "hello world"
+  D/MainActivity: |-->> testHello(String="hello", String="world")
+  D/MainActivity: |--<< testHello [1ms] = "hello world"
 ```
 
 ## 工具集成
@@ -33,7 +33,7 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
 buildscript {
   ...
   dependencies {
-    classpath 'com.lizhenhua.fast:fast-plugin:1.1.0'
+    classpath 'com.lizhenhua.fast:fast-plugin:1.2.0'
   }
 }
 ```
@@ -54,8 +54,8 @@ plugins {
 ```groovy
 dependencies {
     ...
-    implementation 'com.lizhenhua.fast:fast-runtime:1.1.0'
-    implementation 'com.lizhenhua.fast:fast-annotation:1.1.0'
+    implementation 'com.lizhenhua.fast:fast-runtime:1.2.0'
+    implementation 'com.lizhenhua.fast:fast-annotation:1.2.0'
     ...
 }
 ```
