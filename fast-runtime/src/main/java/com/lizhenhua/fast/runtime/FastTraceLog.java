@@ -36,7 +36,8 @@ public class FastTraceLog {
       }
     }
 
-    StringBuilder builder = new StringBuilder(">>>> ");
+    StringBuilder builder =
+        new StringBuilder(FastTags.getMethodEnterLogTag(className, methodName, parameterTypes));
     builder.append(methodName).append('(');
     for (int i = 0; i < parameterValues.size(); i++) {
       if (i > 0) {
@@ -120,11 +121,12 @@ public class FastTraceLog {
       e.printStackTrace();
     }
 
-    StringBuilder builder = new StringBuilder("<<<< ")
-        .append(methodName)
-        .append(" [")
-        .append(lengthMillis)
-        .append("ms]");
+    StringBuilder builder =
+        new StringBuilder(FastTags.getMethodExitLogTag())
+            .append(methodName)
+            .append(" [")
+            .append(lengthMillis)
+            .append("ms]");
 
     if (hasReturnType) {
       builder.append(" = ");
