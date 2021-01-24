@@ -40,7 +40,7 @@ buildscript {
 
 2. 需要使用的app的`build.gradle`添加apply plugin
 ```groovy
-apply plugin 'com.lizhenhua.fast.plugin'
+apply plugin: 'com.lizhenhua.fast.plugin'
 ```
 或者
 ```groovy
