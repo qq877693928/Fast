@@ -1,5 +1,6 @@
 # Fast
 
+<a href='https://bintray.com/lizhenhua2003/maven/fast-plugin?source=watch' alt='Get automatic notifications about new "fast-plugin" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a><a href='https://bintray.com/lizhenhua2003/maven/fast-plugin?source=watch' alt='Get automatic notifications about new "fast-plugin" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a>
 [ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.2.0) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.2.0/link)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
