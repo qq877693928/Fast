@@ -34,6 +34,7 @@ buildscript {
   ...
   dependencies {
     classpath 'com.lizhenhua.fast:fast-plugin:1.3.0'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
   }
 }
 ```
