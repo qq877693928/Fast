@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.lizhenhua.fast.plugin'
+//    id 'com.lizhenhua.fast.plugin'
 }
 
 android {
