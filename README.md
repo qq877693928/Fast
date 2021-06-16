@@ -27,7 +27,7 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
 ```
 
 ## 工具集成
-1. 工程目录`build.gradle`添加repositories和classpath
+1. 工程目录`build.gradle`添加repositories和classpath [build.gradle配置参考](https://github.com/qq877693928/Fast/blob/main/build.gradle)
 
 工具jar已发布至MavenCentral，需添加`mavenCentral()`
 ```groovy
