@@ -1,6 +1,5 @@
 # Fast
 
-[ ![Download](https://api.bintray.com/packages/lizhenhua2003/maven/fast-plugin/images/download.svg?version=1.3.0) ](https://bintray.com/lizhenhua2003/maven/fast-plugin/1.3.0/link)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
 Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标注待打点方法，程序运行时该方法被调用时，自动触发日志记录到Logcat
@@ -27,14 +26,22 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
 ```
 
 ## 工具集成
-1. 工程目录`build.gradle`添加classpath
-插件已经上传到JCenter上，所以不需要添加额外的repositories地址，只需要添加classpath
+1. 工程目录`build.gradle`添加repositories和classpath
+JCenter停止服务，改用MavenCentral服务，需要添加`mavenCentral()`
+```groovy
+repositories {
+   ...
+   mavenCentral()
+}
+```
+
+然后添加classpath
 ```groovy
 buildscript {
   ...
   dependencies {
-    classpath 'com.lizhenhua.fast:fast-plugin:1.3.0'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
+    classpath 'io.github.qq877693928:fast-plugin:1.4.0'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:xxx"
   }
 }
 ```
@@ -55,8 +62,8 @@ plugins {
 ```groovy
 dependencies {
     ...
-    implementation 'com.lizhenhua.fast:fast-runtime:1.3.0'
-    implementation 'com.lizhenhua.fast:fast-annotation:1.3.0'
+    implementation 'io.github.qq877693928:fast-annotation:1.4.0'
+    implementation 'io.github.qq877693928:fast-runtime:1.4.0'
     ...
 }
 ```
