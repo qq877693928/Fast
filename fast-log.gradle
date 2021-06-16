@@ -1,0 +1,13 @@
+apply plugin: 'com.lizhenhua.fast.plugin'
+
+subprojects { subProject ->
+    if (project.gradle.startParameter.taskNames.contains("Debug")) {
+        fast {
+            enable = true
+        }
+    } else if (project.gradle.startParameter.taskNames.contains("Release")) {
+        fast {
+            enable = false
+        }
+    }
+}

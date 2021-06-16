@@ -1,0 +1,70 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+Properties gradleProperties = new Properties()
+gradleProperties.load(project.rootProject.file('gradle.properties').newDataInputStream())
+def sonaTypeUsername = gradleProperties.getProperty("sonatype.username")
+def sonaTypePassword = gradleProperties.getProperty("sonatype.password")
+def groupId = gradleProperties.getProperty("GROUP_ID")
+def artifactId = project.ext.getProperty('artifact')
+def version = gradleProperties.getProperty("VERSION")
+def SITE_URL = gradleProperties.getProperty("SITE_URL")
+def GIT_URL = gradleProperties.getProperty("GIT_URL")
+def LICENSE_NAME = gradleProperties.getProperty("LICENSE_NAME")
+def LICENSE_URL = gradleProperties.getProperty("LICENSE_URL")
+def DEVELOPER_ID = gradleProperties.getProperty("DEVELOPER_ID")
+def DEVELOPER_NAME = gradleProperties.getProperty("DEVELOPER_NAME")
+def DEVELOPER_EMAIL = gradleProperties.getProperty("DEVELOPER_EMAIL")
+
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonaTypeUsername, password: sonaTypePassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: sonaTypeUsername, password: sonaTypePassword)
+            }
+
+            pom.groupId = groupId
+            pom.artifactId = artifactId
+            pom.version = version
+
+            pom.project {
+                name project.ext.getProperty('libraryName')
+                packaging project.ext.getProperty('type')
+                description project.ext.getProperty('libraryDescription')
+                url GIT_URL
+
+                scm {
+                    connection 'scm:https://github.com/qq877693928/Fast.git'
+                    developerConnection 'scm:git@github.com:qq877693928/Fast.git'
+                    url SITE_URL
+                }
+
+                licenses {
+                    license {
+                        name LICENSE_NAME
+                        url LICENSE_URL
+                    }
+                }
+
+                developers {
+                    developer {
+                        id DEVELOPER_ID
+                        name DEVELOPER_NAME
+                        email DEVELOPER_EMAIL
+                    }
+                }
+            }
+        }
+    }
+}

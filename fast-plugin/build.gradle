@@ -21,8 +21,20 @@ ext {
     artifact = 'fast-plugin'
     type = 'jar'
     libraryDescription = 'This is gradle plugin about Fast.'
-    allLicenses = ["Apache-2.0"]
 }
 
-apply from: '../bintray.gradle'
-apply from: '../install.gradle'
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+apply from: '../publish.gradle'

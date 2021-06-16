@@ -42,8 +42,6 @@ ext {
     artifact = 'fast-runtime'
     type = 'aar'
     libraryDescription = 'This is logging method library about Fast.'
-    allLicenses = ["Apache-2.0"]
 }
 
-apply from: '../bintray.gradle'
-apply from: '../install.gradle'
+apply from: '../publish.gradle'
