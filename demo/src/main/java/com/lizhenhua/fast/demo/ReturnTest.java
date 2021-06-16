@@ -57,7 +57,9 @@ public class ReturnTest {
         FastTraceLog.enterMethod("com.lizhenhua.fast.demo.LogTest", "logInt", "[java.lang.Long, java.lang.Long, java.lang.Long]", Arrays.asList(value, value2, value3));
         long var4 = System.currentTimeMillis();
         System.out.println(value);
-        return value + value2 + value3;
+        long result = value + value2 + value3;
+        FastTraceLog.exitMethod("com.lizhenhua.fast.demo.LogTest", "logInt", (Object) result, System.currentTimeMillis() - var4, true);
+        return result;
     }
 
     public long logLong(long value, long value2, long value3) {

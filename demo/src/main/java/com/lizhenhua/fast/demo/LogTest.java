@@ -58,6 +58,15 @@ public class LogTest {
         FastTraceLog.exitMethod("com.lizhenhua.fast.demo.LogTest", "logInt", (Object) null, System.currentTimeMillis() - var4, false);
     }
 
+    public long logReturn(long value) {
+        FastTraceLog.enterMethod("com.lizhenhua.fast.demo.LogTest", "logInt", "[java.lang.Long]", Arrays.asList(value));
+        long var4 = System.currentTimeMillis();
+        System.out.println(value);
+        long result = value + 1L;
+        FastTraceLog.exitMethod("com.lizhenhua.fast.demo.LogTest", "logInt", (Object) result, System.currentTimeMillis() - var4, true);
+        return result;
+    }
+
     public static void logValue() {
         FastTraceLog.enterMethod("com.lizhenhua.fast.demo.LogTest", "logInt", "[java.lang.Integer]", null);
         long var4 = System.currentTimeMillis();

@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         testIntArray(1, 2, 3, 4);
 
-        new Test(2);
+        new Test(2).testReturnString(5);
     }
 
     @FastLog

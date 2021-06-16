@@ -67,7 +67,6 @@ class CommonMethodStrategy(methodModel: MethodModel?) : MethodStrategy(methodMod
         val returnResultLoadOpcode: Int = OpcodeUtil.getLoadOpcode(opcode)
 
         if (OpcodeUtil.hasReturnValue(opcode)) {
-
             // 存储return值
             mv.visitVarInsn(returnResultStoreOpcode, storeIndex)
 

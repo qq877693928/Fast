@@ -8,20 +8,18 @@ buildscript {
     ext.maven_version = "2.1"
     repositories {
         mavenCentral()
-        jcenter()
         google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.github.qq877693928:fast-plugin:2.0.0'
+        classpath 'io.github.qq877693928:fast-plugin:2.1.0'
     }
 }
 
 allprojects {
     repositories {
         mavenCentral()
-        jcenter()
         google()
     }
 }

@@ -20,6 +20,11 @@ public class Test {
     }
 
     @FastLog
+    public String testReturnString(int value) {
+        return "value = " + value;
+    }
+
+    @FastLog
     public long testMethod(long value) {
         return value + 1;
     }

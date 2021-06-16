@@ -68,7 +68,7 @@ object OpcodeUtil {
     }
 
     fun hasReturnValue(opcode: Int): Boolean {
-        return opcode in AdviceAdapter.IRETURN..AdviceAdapter.DRETURN
+        return opcode in AdviceAdapter.IRETURN..AdviceAdapter.ARETURN
     }
 
     fun voidReturnValue(returnType: Type): Boolean {
