@@ -28,7 +28,8 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
 
 ## 工具集成
 1. 工程目录`build.gradle`添加repositories和classpath
-JCenter停止服务，改用MavenCentral服务，需要添加`mavenCentral()`
+
+工具jar已发布至MavenCentral，需添加`mavenCentral()`
 ```groovy
 repositories {
    ...
