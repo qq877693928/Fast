@@ -7,7 +7,9 @@ import org.objectweb.asm.Opcodes
 abstract class MethodStrategy(methodModel: MethodModel?) : IMethod, IModel {
     protected var mMethodModel: MethodModel
     override fun visitAnnotation(descriptor: String) {
-        mMethodModel.isInject = LOG_CLASS_DESCRIPTOR == descriptor
+        if (LOG_CLASS_DESCRIPTOR == descriptor) {
+            mMethodModel.isInject = true
+        }
     }
 
     override fun visitMethodEnter(mv: MethodVisitor?) {

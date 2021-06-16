@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.Nullable;
 
 import com.lizhenhua.fast.annotation.FastLog;
@@ -12,7 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity {
+    @FastLog
     @Override
+    @AnyThread
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -32,6 +35,7 @@ public class MainActivity extends Activity {
     }
 
     @FastLog
+    @AnyThread
     public void onTestIntArray(View view) {
         testIntArray(Arrays.asList(1, 2));
     }

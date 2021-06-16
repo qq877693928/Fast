@@ -7,20 +7,22 @@ buildscript {
     ext.bintray_version = "1.8.4"
     ext.maven_version = "2.1"
     repositories {
-        google()
         mavenCentral()
+        jcenter()
+        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.github.qq877693928:fast-plugin:1.4.0'
+        classpath 'io.github.qq877693928:fast-plugin:2.0.0'
     }
 }
 
 allprojects {
     repositories {
-        google()
         mavenCentral()
+        jcenter()
+        google()
     }
 }
 
