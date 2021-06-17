@@ -88,12 +88,14 @@ fast {
 build.gradle
 脚本配置debug版本生效：
 ```shell script
-subprojects { subProject ->
-    if (project.gradle.startParameter.taskNames.contains("Debug")) {
+allprojects { subProject ->
+    def taskName = project.gradle.startParameter.taskNames != null
+        ? project.gradle.startParameter.taskNames.toString() : "[]"
+    if (taskName.contains("Debug")) {
         fast {
             enable = true
         }
-    } else if (project.gradle.startParameter.taskNames.contains("Release")) {
+    } else if (taskName.contains("Release")) {
         fast {
             enable = false
         }
