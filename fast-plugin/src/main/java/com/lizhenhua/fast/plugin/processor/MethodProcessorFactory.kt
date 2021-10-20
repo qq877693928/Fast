@@ -1,25 +1,25 @@
-package com.lizhenhua.fast.plugin.strategy
+package com.lizhenhua.fast.plugin.processor
 
 import com.lizhenhua.fast.plugin.info.MethodModel.Companion.parse
 import org.objectweb.asm.Opcodes
 
-object MethodStrategyFactory {
+object MethodProcessorFactory {
     fun getMethodStrategy(
         className: String,
         access: Int,
         methodName: String,
         descriptor: String
-    ): MethodStrategy {
+    ): MethodProcessor {
         val model = parse(className, access, methodName, descriptor)
         return when {
             isStaticMethod(access) -> {
-                StaticMethodStrategy(model)
+                StaticMethodProcessor(model)
             }
             "<init>" == methodName -> {
-                ConstructorMethodStrategy(model)
+                ConstructorMethodProcessor(model)
             }
             else -> {
-                CommonMethodStrategy(model)
+                CommonMethodProcessor(model)
             }
         }
     }

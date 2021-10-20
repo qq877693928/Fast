@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Target({TYPE, METHOD, CONSTRUCTOR})
 @Retention(CLASS)
 public @interface FastLog {
+    LogPolicy value() default LogPolicy.METHOD_AND_COST;
 }

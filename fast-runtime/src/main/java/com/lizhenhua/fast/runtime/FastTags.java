@@ -26,7 +26,7 @@ public class FastTags {
   }
 
   private static String getBlankString(int size) {
-    StringBuilder stringBuilder = new StringBuilder("|");
+    StringBuilder stringBuilder = new StringBuilder();
     for (int i = 0; i < size; i++) {
       stringBuilder.append("--");
     }

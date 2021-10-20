@@ -1,10 +1,12 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+def sonaTypeUsername = localProperties.getProperty("sonatype.username")
+def sonaTypePassword = localProperties.getProperty("sonatype.password")
 Properties gradleProperties = new Properties()
 gradleProperties.load(project.rootProject.file('gradle.properties').newDataInputStream())
-def sonaTypeUsername = gradleProperties.getProperty("sonatype.username")
-def sonaTypePassword = gradleProperties.getProperty("sonatype.password")
 def groupId = gradleProperties.getProperty("GROUP_ID")
 def artifactId = project.ext.getProperty('artifact')
 def version = gradleProperties.getProperty("VERSION")

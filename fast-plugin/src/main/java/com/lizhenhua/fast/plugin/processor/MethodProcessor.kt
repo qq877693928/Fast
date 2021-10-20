@@ -1,10 +1,10 @@
-package com.lizhenhua.fast.plugin.strategy
+package com.lizhenhua.fast.plugin.processor
 
 import com.lizhenhua.fast.plugin.info.MethodModel
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
-abstract class MethodStrategy(methodModel: MethodModel?) : IMethod, IModel {
+abstract class MethodProcessor(methodModel: MethodModel?) : IMethod, IModel {
     protected var mMethodModel: MethodModel
     override fun visitAnnotation(descriptor: String) {
         if (LOG_CLASS_DESCRIPTOR == descriptor) {

@@ -1,4 +1,4 @@
-package com.lizhenhua.fast.plugin.strategy
+package com.lizhenhua.fast.plugin.processor
 
 import com.lizhenhua.fast.plugin.info.MethodModel
 import com.lizhenhua.fast.plugin.util.InvokeUtil
@@ -8,7 +8,7 @@ import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
 import org.objectweb.asm.commons.AdviceAdapter
 
-class StaticMethodStrategy(methodModel: MethodModel?) : MethodStrategy(methodModel) {
+class StaticMethodProcessor(methodModel: MethodModel?) : MethodProcessor(methodModel) {
     override fun handleMethodEnter(mv: MethodVisitor) {
         mv.visitLdcInsn(mMethodModel.className)
         mv.visitLdcInsn(mMethodModel.methodName)
@@ -59,38 +59,35 @@ class StaticMethodStrategy(methodModel: MethodModel?) : MethodStrategy(methodMod
     }
 
     override fun handleMethodExit(nextLocal: Int, mv: MethodVisitor, opcode: Int) {
-        val returnType = Type.getReturnType(mMethodModel.descriptor)
-        val storeIndex: Int = nextLocal + returnType.size
-        println("methodName: ${mMethodModel.methodName}, types: ${mMethodModel.paramClassNameList}, nextLocal: $storeIndex")
-
-        val returnResultStoreOpcode: Int = OpcodeUtil.getStoreOpcode(opcode)
-        val returnResultLoadOpcode: Int = OpcodeUtil.getLoadOpcode(opcode)
-
-        if (OpcodeUtil.hasReturnValue(opcode)) {
-            // 存储return值
-            mv.visitVarInsn(returnResultStoreOpcode, storeIndex)
-
-            mv.visitLdcInsn(mMethodModel.className)
-            mv.visitLdcInsn(mMethodModel.methodName)
-            mv.visitVarInsn(returnResultLoadOpcode, storeIndex)
-            mv.visitMethodInsn(
-                AdviceAdapter.INVOKESTATIC,
-                "java/lang/System",
-                "currentTimeMillis",
-                "()J",
-                false
-            );
-            mv.visitVarInsn(AdviceAdapter.LLOAD, timeLocalIndex);
-            mv.visitInsn(AdviceAdapter.LSUB)
-            mv.visitInsn(AdviceAdapter.ICONST_1)
-
-            mv.visitMethodInsn(
-                AdviceAdapter.INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "exitMethod",
-                "(Ljava/lang/String;Ljava/lang/String;" + returnType.descriptor + "JZ)V", false
-            )
-            //返回return值
-            mv.visitVarInsn(returnResultLoadOpcode, storeIndex)
-        } else if (OpcodeUtil.voidReturnValue(returnType)) {
+//        val returnType = Type.getReturnType(mMethodModel.descriptor)
+//        val storeIndex: Int = nextLocal + returnType.size
+//        val returnResultStoreOpcode: Int = OpcodeUtil.getStoreOpcode(opcode)
+//        val returnResultLoadOpcode: Int = OpcodeUtil.getLoadOpcode(opcode)
+//        if (OpcodeUtil.hasReturnValue(opcode)) {
+//            // 存储return值
+//            mv.visitVarInsn(returnResultStoreOpcode, storeIndex)
+//
+//            mv.visitLdcInsn(mMethodModel.className)
+//            mv.visitLdcInsn(mMethodModel.methodName)
+//            mv.visitVarInsn(returnResultLoadOpcode, storeIndex)
+//            mv.visitMethodInsn(
+//                AdviceAdapter.INVOKESTATIC,
+//                "java/lang/System",
+//                "currentTimeMillis",
+//                "()J",
+//                false
+//            );
+//            mv.visitVarInsn(AdviceAdapter.LLOAD, timeLocalIndex);
+//            mv.visitInsn(AdviceAdapter.LSUB)
+//            mv.visitInsn(AdviceAdapter.ICONST_1)
+//
+//            mv.visitMethodInsn(
+//                AdviceAdapter.INVOKESTATIC, "com/lizhenhua/fast/runtime/FastTraceLog", "exitMethod",
+//                "(Ljava/lang/String;Ljava/lang/String;" + returnType.descriptor + "JZ)V", false
+//            )
+//            //返回return值
+//            mv.visitVarInsn(returnResultLoadOpcode, storeIndex)
+//        } else if (OpcodeUtil.voidReturnValue(returnType)) {
             mv.visitLdcInsn(mMethodModel.className)
             mv.visitLdcInsn(mMethodModel.methodName)
             mv.visitInsn(AdviceAdapter.ACONST_NULL)
@@ -112,7 +109,7 @@ class StaticMethodStrategy(methodModel: MethodModel?) : MethodStrategy(methodMod
                 "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;JZ)V",
                 false
             )
-        }
+//        }
         mv.visitInsn(opcode)
     }
 }

@@ -13,7 +13,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.github.qq877693928:fast-plugin:2.1.0'
+        classpath 'io.github.qq877693928:fast-plugin:2.2.0'
     }
 }
 

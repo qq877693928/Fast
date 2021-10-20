@@ -1,4 +1,4 @@
-package com.lizhenhua.fast.plugin.strategy
+package com.lizhenhua.fast.plugin.processor
 
 import org.objectweb.asm.MethodVisitor
 

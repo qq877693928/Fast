@@ -1,4 +1,4 @@
-package com.lizhenhua.fast.plugin.strategy
+package com.lizhenhua.fast.plugin.processor
 
 import com.lizhenhua.fast.plugin.info.MethodModel
 import com.lizhenhua.fast.plugin.util.InvokeUtil
@@ -7,7 +7,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
 
-class ConstructorMethodStrategy(methodModel: MethodModel?) : MethodStrategy(methodModel) {
+class ConstructorMethodProcessor(methodModel: MethodModel?) : MethodProcessor(methodModel) {
     override fun handleMethodEnter(mv: MethodVisitor) {
         mv.visitLdcInsn(mMethodModel.className)
         mv.visitLdcInsn(mMethodModel.methodName)

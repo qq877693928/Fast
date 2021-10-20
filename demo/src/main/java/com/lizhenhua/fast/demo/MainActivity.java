@@ -8,6 +8,7 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.Nullable;
 
 import com.lizhenhua.fast.annotation.FastLog;
+import com.lizhenhua.fast.annotation.LogPolicy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
         new Test(2).testReturnString(5);
     }
 
-    @FastLog
+    @FastLog(LogPolicy.ONLY_METHOD)
     public void onTestInt(View view) {
         testInt(1);
     }
