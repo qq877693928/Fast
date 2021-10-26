@@ -38,27 +38,28 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
     }
 
     private String getMethodInfo(String className, String methodName, String parameterTypes, List<Object> parameterValues) {
-        List<String> parameterNames = null;
+        List<String> parameterNames = new ArrayList<>();
         parameterTypes = parameterTypes.replace("[", "").replace("]", "");
         List<String> typeList = Arrays.asList(parameterTypes.split(",", -1));
-        if (!TextUtils.isEmpty(parameterTypes) && typeList != null && !typeList.isEmpty()) {
-            parameterNames = new ArrayList<>(typeList.size());
+        if (!TextUtils.isEmpty(parameterTypes) && !typeList.isEmpty()) {
             for (String typeClassName : typeList) {
-                try {
-                    Class<?> cls = Class.forName(typeClassName.trim());
-                    parameterNames.add(asTag(cls));
-                } catch (ClassNotFoundException ignore) {
+                if (!TextUtils.isEmpty(typeClassName)) {
+                    try {
+                        Class<?> cls = Class.forName(typeClassName.trim());
+                        parameterNames.add(asTag(cls));
+                    } catch (ClassNotFoundException ignore) {
+                    }
                 }
             }
         }
 
         StringBuilder builder = new StringBuilder();
-        builder.append(className).append("#").append(methodName).append('(');
+        builder.append(getClassName(className)).append("#").append(methodName).append('(');
         for (int i = 0; i < parameterValues.size(); i++) {
             if (i > 0) {
                 builder.append(", ");
             }
-            if (parameterNames != null && parameterNames.size() > i) {
+            if (parameterNames.size() > i) {
                 builder.append(parameterNames.get(i)).append('=');
             }
             builder.append(Strings.toString(parameterValues.get(i)));
@@ -72,6 +73,19 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
             return "[main]";
         } else {
             return "[" + Thread.currentThread().getName() + "]";
+        }
+    }
+
+    private String getClassName(String className) {
+        if (TextUtils.isEmpty(className)) {
+            return "";
+        } else {
+            try {
+                Class<?> cls = Class.forName(className);
+                return asTag(cls);
+            } catch (ClassNotFoundException e) {
+                return "";
+            }
         }
     }
 }
