@@ -33,7 +33,7 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
             Trace.endSection();
         }
 
-        String message = START_STR + getThreadInfo() + FastTags.getMethodExitLogTag() + methodName + "() [" + costTime + "ms]";
+        String message = START_STR + getThreadInfo() + FastTags.getMethodExitLogTag() + getClassName(className) + "#" + methodName + "() [" + costTime + "ms]";
         Log.d(TAG, message);
     }
 
@@ -55,14 +55,16 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
 
         StringBuilder builder = new StringBuilder();
         builder.append(getClassName(className)).append("#").append(methodName).append('(');
-        for (int i = 0; i < parameterValues.size(); i++) {
-            if (i > 0) {
-                builder.append(", ");
+        if (parameterValues != null) {
+            for (int i = 0; i < parameterValues.size(); i++) {
+                if (i > 0) {
+                    builder.append(", ");
+                }
+                if (parameterNames.size() > i) {
+                    builder.append(parameterNames.get(i)).append('=');
+                }
+                builder.append(Strings.toString(parameterValues.get(i)));
             }
-            if (parameterNames.size() > i) {
-                builder.append(parameterNames.get(i)).append('=');
-            }
-            builder.append(Strings.toString(parameterValues.get(i)));
         }
         builder.append(')');
         return builder.toString();
