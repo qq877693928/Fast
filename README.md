@@ -21,7 +21,7 @@ Fast通过在方法上加上特定注解(@FastLog)，编译时自动插入代码
   }
 ```
 * 日志效果
-```shell script
+```java script
   D/FAST_LOG: ├[main]-->> MainActivity#testHello(String="hello", String="world")
   D/FAST_LOG: ├[main]--<< MainActivity#testHello() [1ms]
 ```
