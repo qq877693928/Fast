@@ -18,7 +18,7 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
     public void enterMethod(String className, String methodName, String parameterTypes, List<Object> parameterValues) {
         String message = START_STR + getThreadInfo() +
                 FastTags.getMethodEnterLogTag(className, methodName, parameterTypes) +
-                getMethodInfo(methodName, parameterTypes, parameterValues);
+                getMethodInfo(className, methodName, parameterTypes, parameterValues);
         Log.d(TAG, message);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -37,24 +37,23 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
         Log.d(TAG, message);
     }
 
-    private String getMethodInfo(String methodName, String parameterTypes, List<Object> parameterValues) {
+    private String getMethodInfo(String className, String methodName, String parameterTypes, List<Object> parameterValues) {
         List<String> parameterNames = null;
         parameterTypes = parameterTypes.replace("[", "").replace("]", "");
         List<String> typeList = Arrays.asList(parameterTypes.split(",", -1));
-        if (!TextUtils.isEmpty(parameterTypes) && !typeList.isEmpty()) {
+        if (!TextUtils.isEmpty(parameterTypes) && typeList != null && !typeList.isEmpty()) {
             parameterNames = new ArrayList<>(typeList.size());
             for (String typeClassName : typeList) {
                 try {
                     Class<?> cls = Class.forName(typeClassName.trim());
                     parameterNames.add(asTag(cls));
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (ClassNotFoundException ignore) {
                 }
             }
         }
 
         StringBuilder builder = new StringBuilder();
-        builder.append(methodName).append('(');
+        builder.append(className).append("#").append(methodName).append('(');
         for (int i = 0; i < parameterValues.size(); i++) {
             if (i > 0) {
                 builder.append(", ");
@@ -70,9 +69,9 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
 
     private String getThreadInfo() {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            return "[Thread:main]";
+            return "[main]";
         } else {
-            return "[Thread:" + Thread.currentThread().getName() + "]";
+            return "[" + Thread.currentThread().getName() + "]";
         }
     }
 }
