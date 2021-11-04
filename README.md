@@ -91,13 +91,12 @@ build.gradle
 allprojects { subProject ->
     def taskName = project.gradle.startParameter.taskNames != null
         ? project.gradle.startParameter.taskNames.toString() : "[]"
-    if (taskName.contains("Debug")) {
+    if (!taskName.contains("AndroidTest")
+        && !taskName.contains("UnitTest")
+        && taskName.contains("Debug")) {
+        apply plugin: 'com.lizhenhua.fast.plugin'
         fast {
             enable = true
-        }
-    } else if (taskName.contains("Release")) {
-        fast {
-            enable = false
         }
     }
 }
