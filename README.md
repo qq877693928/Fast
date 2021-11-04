@@ -86,7 +86,7 @@ fast {
 ```
 
 build.gradle
-脚本配置debug版本生效：
+脚本配置debug版本生效（忽略AndroidTest和UnitTest）：
 ```shell script
 allprojects { subProject ->
     def taskName = project.gradle.startParameter.taskNames != null
