@@ -64,8 +64,8 @@ plugins {
 ```groovy
 dependencies {
     ...
-    implementation 'com.lizhenhua.fast:fast-runtime:2.3.0'
-    implementation 'com.lizhenhua.fast:fast-annotation:2.3.0'
+    implementation 'io.github.qq877693928:fast-runtime:2.3.0'
+    implementation 'io.github.qq877693928:fast-annotation:2.3.0'
     ...
 }
 ```
