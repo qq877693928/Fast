@@ -1,5 +1,6 @@
 package com.lizhenhua.fast.demo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +10,13 @@ import androidx.annotation.Nullable;
 
 import com.lizhenhua.fast.annotation.FastLog;
 import com.lizhenhua.fast.annotation.LogPolicy;
+//import com.lizhenhua.fast.lib.AndroidLogTest;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity {
+    @SuppressLint("WrongThread")
     @FastLog
     @Override
     @AnyThread
@@ -23,6 +26,18 @@ public class MainActivity extends Activity {
         testIntArray(1, 2, 3, 4);
 
         new Test(2).testReturnString(5);
+        new Test(2).testMethod(5);
+
+        Test.testStatic(1, 2, 3);
+
+        new KotlinTest(1, 2, 3);
+
+        new KotlinTest("1", "2", "3").logLong(1L, 2L);
+
+        KotlinTest.Companion.logValue2(1L, 2L, 3L);
+
+//        new AndroidLogTest().logLong(1L, 2L, 3L);
+
     }
 
     @FastLog(LogPolicy.ONLY_METHOD)

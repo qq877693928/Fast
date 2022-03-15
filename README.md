@@ -1,6 +1,6 @@
 # Fast
 
-[ ![Download](https://img.shields.io/badge/download-2.3.0-green) ](https://repo1.maven.org/maven2/io/github/qq877693928)
+[ ![Download](https://img.shields.io/badge/download-2.4.0-green) ](https://repo1.maven.org/maven2/io/github/qq877693928)
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
 Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标注待打点方法，程序运行时该方法被调用时，自动触发日志记录到Logcat
@@ -42,7 +42,7 @@ repositories {
 buildscript {
   ...
   dependencies {
-    classpath 'io.github.qq877693928:fast-plugin:2.3.0'
+    classpath 'io.github.qq877693928:fast-plugin:2.4.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:xxx"
   }
 }
@@ -60,12 +60,17 @@ plugins {
 }
 ```
 
+添加混淆
+```java
+-keep class com.lizhenhua.fast.**{*;}
+```
+
 依赖支持库
 ```groovy
 dependencies {
     ...
-    implementation 'io.github.qq877693928:fast-runtime:2.3.0'
-    implementation 'io.github.qq877693928:fast-annotation:2.3.0'
+    implementation 'io.github.qq877693928:fast-runtime:2.4.0'
+    implementation 'io.github.qq877693928:fast-annotation:2.4.0'
     ...
 }
 ```

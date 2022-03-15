@@ -3,3 +3,4 @@ include ':fast-runtime'
 include ':fast-plugin'
 include ':demo'
 rootProject.name = "Fast"
+include ':android_lib'

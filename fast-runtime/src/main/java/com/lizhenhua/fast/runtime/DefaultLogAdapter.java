@@ -17,7 +17,7 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
     @Override
     public void enterMethod(String className, String methodName, String parameterTypes, List<Object> parameterValues) {
         String message = START_STR + getThreadInfo() +
-                FastTags.getMethodEnterLogTag(className, methodName, parameterTypes) +
+                FastTags.getMethodEnterLogTag(className, methodName, System.currentTimeMillis(), parameterTypes) +
                 getMethodInfo(className, methodName, parameterTypes, parameterValues);
         Log.d(TAG, message);
 
@@ -28,12 +28,14 @@ public final class DefaultLogAdapter extends AbstractLogAdapter {
     }
 
     @Override
-    public void exitMethod(String className, String methodName, long costTime) {
+    public void exitMethod(String className, String methodName) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Trace.endSection();
         }
 
-        String message = START_STR + getThreadInfo() + FastTags.getMethodExitLogTag() + getClassName(className) + "#" + methodName + "() [" + costTime + "ms]";
+        Pair<Long, String> pair = FastTags.getMethodExitLogTag();
+
+        String message = START_STR + getThreadInfo() + pair.second + getClassName(className) + "#" + methodName + "() [" + (System.currentTimeMillis() - pair.first) + "ms]";
         Log.d(TAG, message);
     }
 

@@ -45,3 +45,4 @@ ext {
 }
 
 apply from: '../publish.gradle'
+//apply from: '../maven_local.gradle'

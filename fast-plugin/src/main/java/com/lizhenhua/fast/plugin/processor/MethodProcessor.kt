@@ -4,7 +4,7 @@ import com.lizhenhua.fast.plugin.info.MethodModel
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
-abstract class MethodProcessor(methodModel: MethodModel?) : IMethod, IModel {
+abstract class MethodProcessor(methodModel: MethodModel?, open var classIsInject: Boolean) : IMethod, IModel {
     protected var mMethodModel: MethodModel
     override fun visitAnnotation(descriptor: String) {
         if (LOG_CLASS_DESCRIPTOR == descriptor) {
@@ -13,7 +13,7 @@ abstract class MethodProcessor(methodModel: MethodModel?) : IMethod, IModel {
     }
 
     override fun visitMethodEnter(mv: MethodVisitor?) {
-        if (!mMethodModel.isInject) {
+        if (!mMethodModel.isInject && !classIsInject) {
             return
         }
         if (mv == null) {
@@ -23,7 +23,7 @@ abstract class MethodProcessor(methodModel: MethodModel?) : IMethod, IModel {
     }
 
     override fun visitMethodExit(nextLocal: Int, mv: MethodVisitor?, opcode: Int) {
-        if (mv != null && mMethodModel.isInject && Opcodes.ATHROW != opcode) {
+        if (mv != null && (mMethodModel.isInject || classIsInject) && Opcodes.ATHROW != opcode) {
             handleMethodExit(nextLocal, mv, opcode)
         }
     }
@@ -51,7 +51,7 @@ abstract class MethodProcessor(methodModel: MethodModel?) : IMethod, IModel {
     protected abstract fun handleMethodExit(nextLocal: Int, mv: MethodVisitor, opcode: Int)
 
     companion object {
-        private const val LOG_CLASS_DESCRIPTOR = "Lcom/lizhenhua/fast/annotation/FastLog;"
+        const val LOG_CLASS_DESCRIPTOR = "Lcom/lizhenhua/fast/annotation/FastLog;"
     }
 
     init {

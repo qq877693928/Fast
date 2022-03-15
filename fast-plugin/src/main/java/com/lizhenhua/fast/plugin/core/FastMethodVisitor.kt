@@ -12,13 +12,15 @@ internal class FastMethodVisitor(
     access: Int,
     methodName: String?,
     descriptor: String?,
-    className: String
+    className: String,
+    classIsInject: Boolean
 ) : AdviceAdapter(api, methodVisitor, access, methodName, descriptor) {
   private val mMethodProcessor: MethodProcessor = MethodProcessorFactory.getMethodStrategy(
     StringUtil.getString(className),
     access,
     StringUtil.getString(methodName),
-    StringUtil.getString(descriptor)
+    StringUtil.getString(descriptor),
+    classIsInject
   )
 
   override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitor {

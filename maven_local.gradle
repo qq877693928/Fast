@@ -1,0 +1,19 @@
+apply plugin: 'maven'
+
+Properties gradleProperties = new Properties()
+gradleProperties.load(project.rootProject.file('gradle.properties').newDataInputStream())
+def groupId = gradleProperties.getProperty("GROUP_ID")
+def version = gradleProperties.getProperty("VERSION")
+def artifactId = project.ext.getProperty('artifact')
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('/Users/lizhenhua/.m2/repository'))
+
+            pom.groupId = groupId
+            pom.artifactId = artifactId
+            pom.version = version
+        }
+    }
+}

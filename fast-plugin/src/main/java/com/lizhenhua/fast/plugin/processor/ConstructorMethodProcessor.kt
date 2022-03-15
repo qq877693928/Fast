@@ -7,7 +7,8 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Type
 
-class ConstructorMethodProcessor(methodModel: MethodModel?) : MethodProcessor(methodModel) {
+class ConstructorMethodProcessor(methodModel: MethodModel?, override var classIsInject: Boolean) :
+    MethodProcessor(methodModel, classIsInject) {
     override fun handleMethodEnter(mv: MethodVisitor) {
         mv.visitLdcInsn(mMethodModel.className)
         mv.visitLdcInsn(mMethodModel.methodName)
@@ -25,7 +26,7 @@ class ConstructorMethodProcessor(methodModel: MethodModel?) : MethodProcessor(me
                     mv.visitInsn(Opcodes.ICONST_0 + index)
                     mv.visitVarInsn(OpcodeUtil.getLoadOpcode(type), loadIndex)
                     InvokeUtil.invokeStaticObject(mv, type)
-                    mv.visitInsn(Opcodes.AASTORE);
+                    mv.visitInsn(Opcodes.AASTORE)
                     loadIndex += type.size
                 }
             }
@@ -44,17 +45,6 @@ class ConstructorMethodProcessor(methodModel: MethodModel?) : MethodProcessor(me
             "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V",
             false
         )
-        timeLocalIndex = loadIndex
-
-        // 时间System.currentTimeMillis
-        mv.visitMethodInsn(
-            Opcodes.INVOKESTATIC,
-            "java/lang/System",
-            "currentTimeMillis",
-            "()J",
-            false
-        )
-        mv.visitVarInsn(Opcodes.LSTORE, timeLocalIndex)
     }
 
     override fun handleMethodExit(
@@ -64,22 +54,13 @@ class ConstructorMethodProcessor(methodModel: MethodModel?) : MethodProcessor(me
     ) {
         mv.visitLdcInsn(mMethodModel.className)
         mv.visitLdcInsn(mMethodModel.methodName)
-        mv.visitVarInsn(Opcodes.ALOAD, 0)
-        mv.visitMethodInsn(
-            Opcodes.INVOKESTATIC,
-            "java/lang/System",
-            "currentTimeMillis",
-            "()J",
-            false
-        )
-        mv.visitVarInsn(Opcodes.LLOAD, timeLocalIndex)
-        mv.visitInsn(Opcodes.LSUB)
-        mv.visitInsn(Opcodes.ICONST_1)
+        mv.visitInsn(Opcodes.ACONST_NULL)
+        mv.visitInsn(Opcodes.ICONST_0)
         mv.visitMethodInsn(
             Opcodes.INVOKESTATIC,
             "com/lizhenhua/fast/runtime/FastTraceLog",
             "exitMethod",
-            "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;JZ)V",
+            "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Z)V",
             false
         )
     }

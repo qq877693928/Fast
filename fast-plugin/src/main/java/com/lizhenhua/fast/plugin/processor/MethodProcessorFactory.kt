@@ -8,18 +8,19 @@ object MethodProcessorFactory {
         className: String,
         access: Int,
         methodName: String,
-        descriptor: String
+        descriptor: String,
+        classIsInject: Boolean
     ): MethodProcessor {
         val model = parse(className, access, methodName, descriptor)
         return when {
             isStaticMethod(access) -> {
-                StaticMethodProcessor(model)
+                StaticMethodProcessor(model, classIsInject)
             }
             "<init>" == methodName -> {
-                ConstructorMethodProcessor(model)
+                ConstructorMethodProcessor(model, classIsInject)
             }
             else -> {
-                CommonMethodProcessor(model)
+                CommonMethodProcessor(model, classIsInject)
             }
         }
     }

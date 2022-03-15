@@ -19,8 +19,10 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
+        FastTraceLog.enterMethod("ExampleInstrumentedTest", "useAppContext", null, null);
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.lizhenhua.fast.runtime.test", appContext.getPackageName());
+        FastTraceLog.exitMethod("ExampleInstrumentedTest", "useAppContext", false, false);
     }
 }

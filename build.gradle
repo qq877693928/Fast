@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_coroutines_version = '1.4.2'
-    ext.kotlin_version = '1.4.10'
+    ext.kotlin_coroutines_version = '1.5.2'
+    ext.kotlin_version = '1.4.32'
     ext.agp_version = "3.6.3"
     ext.gradle_version = "4.1.1"
     ext.bintray_version = "1.8.4"
@@ -13,7 +13,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.github.qq877693928:fast-plugin:2.2.0'
+        classpath 'io.github.qq877693928:fast-plugin:2.4.0'
     }
 }
 

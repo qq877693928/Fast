@@ -5,19 +5,19 @@ import java.util.Stack;
 
 public class FastTags {
 
-  public static final Stack<String> sMethodCallStack = new Stack<>();
+  public static final Stack<Pair<Long, String>> sMethodCallStack = new Stack<>();
 
-  public static String getMethodEnterLogTag(String className, String methodName,
-      String parameterTypes) {
-    sMethodCallStack.push(createMethodUniqueReference(className, methodName, parameterTypes));
+  public static String getMethodEnterLogTag(String className, String methodName, long enterTimeMillis,
+                                            String parameterTypes) {
+    sMethodCallStack.push(Pair.create(enterTimeMillis, createMethodUniqueReference(className, methodName, parameterTypes)));
     int size = sMethodCallStack.size();
     return getBlankString(size) + ">> ";
   }
 
-  public static String getMethodExitLogTag() {
+  public static Pair<Long, String> getMethodExitLogTag() {
     int size = sMethodCallStack.size();
-    sMethodCallStack.pop();
-    return getBlankString(size) + "<< ";
+    Pair<Long, String> pair = sMethodCallStack.pop();
+    return Pair.create(pair.first, getBlankString(size) + "<< ");
   }
 
   private static String createMethodUniqueReference(String className, String methodName,
