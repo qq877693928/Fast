@@ -4,7 +4,11 @@
 [![ASL 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/qq877693928/Fast/blob/main/LICENSE)
 
 Fast是一款Android的Debug工具，支持Java和Kotlin语言, 通过注解标注待打点方法，程序运行时该方法被调用时，自动触发日志记录到Logcat
-, 记录信息包括进入该方法名称、方法的类型和参数值以及方法执行的时长和return值
+, 记录信息包括进入该方法名称、方法的类型和参数值以及方法执行的时长
+
+⚠️
+因为使用Gradle Transform，仅支持包含 `id 'com.android.library'` 和 `id 'com.android.application'` 的 Module，不支持 `id 'java-library'` 的 Module，使用 `FastLog` 时需将 `id 'java-library'` 转成 `id 'com.android.library'`
+
 
 在开发过程中，有时我们不希望通过Cpu Profiler
 工具查看方法的调用过程同时又想快速了解方法的执行过程、参数和时间，就需要对方法的打日志，打日志是一个繁琐的过程，需要记录方法开始时间，参数值，结束时计算方法执行时长，如果待打点的方法比较多时就特别繁琐。
